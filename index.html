@@ -161,8 +161,26 @@ function cek() {
 
   document.getElementById("hasil").innerHTML = "Memproses...";
 
-  fetch(API + nisn)
-    .then(res => res.json())
+ fetch(API + nisn)
+  .then(res => res.text())
+  .then(text => {
+    let data = JSON.parse(text);
+
+    if (data.error) {
+      document.getElementById("hasil").innerHTML = data.error;
+    } else {
+      let statusClass = data.status === "LULUS" ? "lulus" : "tidak";
+
+      document.getElementById("hasil").innerHTML =
+        "<b>Nama:</b> " + data.nama + "<br><br>" +
+        "<b>Status:</b> <span class='" + statusClass + "'>" + data.status + "</span><br><br>" +
+        "<b>Keterangan:</b><br>" + data.keterangan;
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    document.getElementById("hasil").innerHTML = "Terjadi kesalahan koneksi.";
+  });
     .then(data => {
       if (data.error) {
         document.getElementById("hasil").innerHTML = data.error;
