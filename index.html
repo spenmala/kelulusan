@@ -161,6 +161,30 @@ function cek() {
 
   document.getElementById("hasil").innerHTML = "Memproses...";
 
+  fetch("https://script.google.com/macros/s/AKfycbxe8RnE05SWJZ8k_aiXM_039cw1Qmsi5p8L7R8ja57dvnjGiDUzCodYVXsimjIGs96ICg/exec?nisn=" + nisn)
+    .then(res => res.text()) // ⬅️ WAJIB text()
+    .then(text => {
+      let data = JSON.parse(text);
+
+      if (data.error) {
+        document.getElementById("hasil").innerHTML = data.error;
+      } else {
+        let warna = data.status === "LULUS" ? "green" : "red";
+
+        document.getElementById("hasil").innerHTML =
+          "<b>Nama:</b> " + data.nama + "<br><br>" +
+          "<b>Status:</b> <span style='color:" + warna + "'>" + data.status + "</span><br><br>" +
+          "<b>Keterangan:</b><br>" + data.keterangan;
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      document.getElementById("hasil").innerHTML = "Terjadi kesalahan koneksi.";
+    });
+}
+
+  document.getElementById("hasil").innerHTML = "Memproses...";
+
  fetch(API + nisn)
   .then(res => res.text())
   .then(text => {
