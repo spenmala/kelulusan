@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PENGUMUMAN KELULUSAN</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: #f4f6f9;
+}
+
+.header {
+  background: #0b3d91;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.header img {
+  width: 70px;
+  margin-bottom: 10px;
+}
+
+.container {
+  max-width: 500px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: gray;
+  margin-bottom: 20px;
+}
+
+#countdown {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #0b3d91;
+}
+
+input {
+  width: 90%;
+  padding: 12px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: #0b3d91;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #082c6c;
+}
+
+#hasil {
+  margin-top: 25px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.lulus {
+  color: green;
+  font-weight: bold;
+}
+
+.tidak {
+  color: red;
+  font-weight: bold;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  color: gray;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <img src="https://drive.google.com/file/d/1-xjk3hdgbM_rtQonQ2fFpY_9vygK0RHu/view?usp=sharing">
+  <h2>SMP NEGERI 05 LUMAJANG</h2>
+  <div>Pengumuman Kelulusan Tahun Ajaran 2025/2026</div>
+</div>
+
+<div class="container">
+
+  <div id="countdown"></div>
+
+  <div id="formBox" style="display:none;">
+    <input type="text" id="nisn" placeholder="Masukkan NISN">
+    <br>
+    <button onclick="cek()">Cek Kelulusan</button>
+
+    <div id="hasil"></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  © 2026 SMPN 05 LUMAJANG - All Rights Reserved
+</div>
+
+<script>
+const API = "URL_WEB_APP_KAMU?nisn=";
+
+// ⏰ WAKTU PENGUMUMAN
+const waktuBuka = new Date("2026-06-10T10:00:00").getTime();
+
+const countdownEl = document.getElementById("countdown");
+const formBox = document.getElementById("formBox");
+
+setInterval(() => {
+  let now = new Date().getTime();
+  let selisih = waktuBuka - now;
+
+  if (selisih <= 0) {
+    countdownEl.innerHTML = "Pengumuman Telah Dibuka";
+    formBox.style.display = "block";
+    return;
+  }
+
+  let hari = Math.floor(selisih / (1000*60*60*24));
+  let jam = Math.floor((selisih % (1000*60*60*24)) / (1000*60*60));
+  let menit = Math.floor((selisih % (1000*60*60)) / (1000*60));
+  let detik = Math.floor((selisih % (1000*60)) / 1000);
+
+  countdownEl.innerHTML =
+    "Dibuka dalam: " + hari + " hari " + jam + " jam " + menit + " menit " + detik + " detik";
+}, 1000);
+
+function cek() {
+  let nisn = document.getElementById("nisn").value.trim();
+
+  if (!nisn) {
+    document.getElementById("hasil").innerHTML = "NISN harus diisi!";
+    return;
+  }
+
+  document.getElementById("hasil").innerHTML = "Memproses...";
+
+  fetch(API + nisn)
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        document.getElementById("hasil").innerHTML = data.error;
+      } else {
+
+        let statusClass = data.status === "LULUS" ? "lulus" : "tidak";
+
+        document.getElementById("hasil").innerHTML =
+          "<b>Nama:</b> " + data.nama + "<br><br>" +
+          "<b>Status:</b> <span class='" + statusClass + "'>" + data.status + "</span><br><br>" +
+          "<b>Keterangan:</b><br>" + data.keterangan;
+      }
+    })
+    .catch(() => {
+      document.getElementById("hasil").innerHTML = "Terjadi kesalahan koneksi.";
+    });
+}
+</script>
+
+</body>
+</html>
