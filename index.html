@@ -1,227 +1,185 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PENGUMUMAN KELULUSAN</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PENGUMUMAN KELULUSAN</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, sans-serif;
-  background: #f4f6f9;
-}
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #f4f6f9;
+        }
 
-.header {
-  background: #0b3d91;
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
+        .header {
+            background: #0b3d91;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
 
-.header img {
-  width: 70px;
-  margin-bottom: 10px;
-}
+        .header img {
+            width: 70px;
+            margin-bottom: 10px;
+        }
 
-.container {
-  max-width: 500px;
-  margin: 40px auto;
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-  text-align: center;
-}
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
 
-h2 {
-  margin-bottom: 5px;
-}
+        #countdown {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #0b3d91;
+        }
 
-.subtitle {
-  color: gray;
-  margin-bottom: 20px;
-}
+        input {
+            width: 90%;
+            padding: 12px;
+            font-size: 16px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
-#countdown {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #0b3d91;
-}
+        button {
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: #0b3d91;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 95%;
+        }
 
-input {
-  width: 90%;
-  padding: 12px;
-  font-size: 16px;
-  margin-top: 10px;
-}
+        button:hover {
+            background: #082c6c;
+        }
 
-button {
-  margin-top: 15px;
-  padding: 12px 20px;
-  background: #0b3d91;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-}
+        #hasil {
+            margin-top: 25px;
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.6;
+        }
 
-button:hover {
-  background: #082c6c;
-}
+        .lulus {
+            color: green;
+            font-weight: bold;
+        }
 
-#hasil {
-  margin-top: 25px;
-  text-align: left;
-  font-size: 16px;
-}
+        .tidak {
+            color: red;
+            font-weight: bold;
+        }
 
-.lulus {
-  color: green;
-  font-weight: bold;
-}
-
-.tidak {
-  color: red;
-  font-weight: bold;
-}
-
-.footer {
-  text-align: center;
-  margin-top: 40px;
-  color: gray;
-  font-size: 14px;
-}
-</style>
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: gray;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="header">
-  <img src="https://raw.githubusercontent.com/spenmala/kelulusan/main/logo.png">
-  <h2>SMP NEGERI 05 LUMAJANG</h2>
-  <div>Pengumuman Kelulusan Tahun Ajaran 2025/2026</div>
+    <img src="https://raw.githubusercontent.com/spenmala/kelulusan/main/logo.png" alt="Logo">
+    <h2>SMP NEGERI 05 LUMAJANG</h2>
+    <div>Pengumuman Kelulusan Tahun Ajaran 2025/2026</div>
 </div>
 
 <div class="container">
+    <div id="countdown">Memuat hitung mundur...</div>
 
-  <div id="countdown"></div>
-
-  <div id="formBox" style="display:none;">
-    <input type="text" id="nisn" placeholder="Masukkan NISN">
-    <br>
-    <button onclick="cek()">Cek Kelulusan</button>
-
-    <div id="hasil"></div>
-  </div>
-
+    <div id="formBox" style="display:none;">
+        <input type="text" id="nisn" placeholder="Masukkan NISN Anda">
+        <br>
+        <button onclick="cek()">Cek Kelulusan</button>
+        <div id="hasil"></div>
+    </div>
 </div>
 
 <div class="footer">
-  © 2026 SMPN 05 LUMAJANG - All Rights Reserved
+    © 2026 SMPN 05 LUMAJANG - All Rights Reserved
 </div>
 
 <script>
-const API = "https://script.google.com/macros/s/AKfycbxe8RnE05SWJZ8k_aiXM_039cw1Qmsi5p8L7R8ja57dvnjGiDUzCodYVXsimjIGs96ICg/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxe8RnE05SWJZ8k_aiXM_039cw1Qmsi5p8L7R8ja57dvnjGiDUzCodYVXsimjIGs96ICg/exec";
 
-// ⏰ WAKTU PENGUMUMAN
-const waktuBuka = new Date("2026-04-10T10:00:00").getTime();
+    // ⏰ WAKTU PENGUMUMAN (10 April 2026 jam 10 Pagi)
+    const waktuBuka = new Date("2026-04-10T10:00:00").getTime();
 
-const countdownEl = document.getElementById("countdown");
-const formBox = document.getElementById("formBox");
+    const countdownEl = document.getElementById("countdown");
+    const formBox = document.getElementById("formBox");
 
-setInterval(() => {
-  let now = new Date().getTime();
-  let selisih = waktuBuka - now;
+    // HITUNG MUNDUR
+    const timer = setInterval(() => {
+        let now = new Date().getTime();
+        let selisih = waktuBuka - now;
 
-  if (selisih <= 0) {
-    countdownEl.innerHTML = "Pengumuman Telah Dibuka";
-    formBox.style.display = "block";
-    return;
-  }
+        if (selisih <= 0) {
+            clearInterval(timer);
+            countdownEl.innerHTML = "Pengumuman Telah Dibuka";
+            formBox.style.display = "block";
+            return;
+        }
 
-  let hari = Math.floor(selisih / (1000*60*60*24));
-  let jam = Math.floor((selisih % (1000*60*60*24)) / (1000*60*60));
-  let menit = Math.floor((selisih % (1000*60*60)) / (1000*60));
-  let detik = Math.floor((selisih % (1000*60)) / 1000);
+        let hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
+        let jam = Math.floor((selisih % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let menit = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
+        let detik = Math.floor((selisih % (1000 * 60)) / 1000);
 
-  countdownEl.innerHTML =
-    "Dibuka dalam: " + hari + " hari " + jam + " jam " + menit + " menit " + detik + " detik";
-}, 1000);
+        countdownEl.innerHTML = `Dibuka dalam: ${hari}j ${jam}j ${menit}m ${detik}s`;
+    }, 1000);
 
-function cek() {
-  let nisn = document.getElementById("nisn").value.trim();
+    // FUNGSI CEK NISN
+    function cek() {
+        const nisn = document.getElementById("nisn").value.trim();
+        const hasilEl = document.getElementById("hasil");
 
-  if (!nisn) {
-    document.getElementById("hasil").innerHTML = "NISN harus diisi!";
-    return;
-  }
+        if (!nisn) {
+            hasilEl.innerHTML = "<span style='color:red;'>NISN harus diisi!</span>";
+            return;
+        }
 
-  document.getElementById("hasil").innerHTML = "Memproses...";
+        hasilEl.innerHTML = "<i>Memproses data, mohon tunggu...</i>";
 
-  fetch("https://script.google.com/macros/s/AKfycbxe8RnE05SWJZ8k_aiXM_039cw1Qmsi5p8L7R8ja57dvnjGiDUzCodYVXsimjIGs96ICg/exec?nisn=" + nisn)
-    .then(res => res.text()) // ⬅️ WAJIB text()
-    .then(text => {
-      let data = JSON.parse(text);
-
-      if (data.error) {
-        document.getElementById("hasil").innerHTML = data.error;
-      } else {
-        let warna = data.status === "LULUS" ? "green" : "red";
-
-        document.getElementById("hasil").innerHTML =
-          "<b>Nama:</b> " + data.nama + "<br><br>" +
-          "<b>Status:</b> <span style='color:" + warna + "'>" + data.status + "</span><br><br>" +
-          "<b>Keterangan:</b><br>" + data.keterangan;
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      document.getElementById("hasil").innerHTML = "Terjadi kesalahan koneksi.";
-    });
-}
-
-  document.getElementById("hasil").innerHTML = "Memproses...";
-
- fetch(API + nisn)
-  .then(res => res.text())
-  .then(text => {
-    let data = JSON.parse(text);
-
-    if (data.error) {
-      document.getElementById("hasil").innerHTML = data.error;
-    } else {
-      let statusClass = data.status === "LULUS" ? "lulus" : "tidak";
-
-      document.getElementById("hasil").innerHTML =
-        "<b>Nama:</b> " + data.nama + "<br><br>" +
-        "<b>Status:</b> <span class='" + statusClass + "'>" + data.status + "</span><br><br>" +
-        "<b>Keterangan:</b><br>" + data.keterangan;
+        fetch(`${API_URL}?nisn=${nisn}`)
+            .then(res => res.json()) // Langsung parse ke JSON
+            .then(data => {
+                if (data.error) {
+                    hasilEl.innerHTML = `<span style='color:red;'>${data.error}</span>`;
+                } else {
+                    let statusClass = data.status === "LULUS" ? "lulus" : "tidak";
+                    
+                    hasilEl.innerHTML = `
+                        <hr>
+                        <b>Nama:</b> ${data.nama}<br>
+                        <b>Status:</b> <span class="${statusClass}">${data.status}</span><br>
+                        <b>Keterangan:</b><br>
+                        <div style="font-size:14px; background:#f9f9f9; padding:10px; border-radius:5px; border-left:4px solid #0b3d91;">
+                            ${data.keterangan}
+                        </div>
+                    `;
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                hasilEl.innerHTML = "<span style='color:red;'>Terjadi kesalahan koneksi ke server.</span>";
+            });
     }
-  })
-  .catch(err => {
-    console.log(err);
-    document.getElementById("hasil").innerHTML = "Terjadi kesalahan koneksi.";
-  });
-    .then(data => {
-      if (data.error) {
-        document.getElementById("hasil").innerHTML = data.error;
-      } else {
-
-        let statusClass = data.status === "LULUS" ? "lulus" : "tidak";
-
-        document.getElementById("hasil").innerHTML =
-          "<b>Nama:</b> " + data.nama + "<br><br>" +
-          "<b>Status:</b> <span class='" + statusClass + "'>" + data.status + "</span><br><br>" +
-          "<b>Keterangan:</b><br>" + data.keterangan;
-      }
-    })
-    .catch(() => {
-      document.getElementById("hasil").innerHTML = "Terjadi kesalahan koneksi.";
-    });
-}
 </script>
 
 </body>
